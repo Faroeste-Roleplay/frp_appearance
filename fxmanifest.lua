@@ -3,9 +3,7 @@ games {"rdr3"}
 rdr3_warning 'I acknowledge that this is a prerelease build of RedM, and I am aware my resources *will* become incompatible once RedM ships.'
 
 name 'Appearance Editor'
-
-version '0.2'
-
+version '0.3'
 author 'KlandesTino'
 
 escrow_ignore {
@@ -14,6 +12,7 @@ escrow_ignore {
     'data/initialState.lua',
     'data/metapedBodyApparatus.lua',
 	'client/main.lua',
+	'client/framework.lua',
 	'server/main.lua',
 
     'config.lua',
@@ -27,12 +26,13 @@ shared_scripts {
 client_scripts {
 	"config.lua",
 
-	"data/eOverlayLayer.lua", 
-	"data/expressions.lua", 
-	"data/initialState.lua", 
-	"data/metapedBodyApparatus.lua", 
+	"data/eOverlayLayer.lua",
+	"data/expressions.lua",
+	"data/initialState.lua",
+	"data/metapedBodyApparatus.lua",
 
 	"client/main.lua",
+	'client/framework.lua',
 	"client/methods.lua",
 	"client/utils.lua",
 	"client/utils.js",
