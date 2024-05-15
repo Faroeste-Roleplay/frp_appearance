@@ -14,12 +14,15 @@ Game.equippedMetapedClothing = {}
 Game.Start = function(ped, kind, onConfirm, onBeforeUndo, onUndo) 
     Game.ped = ped
 
+    local lang = GetExternalKvpString('frp_core', 'frp:language') or 'pt'
+    local locales = i18n.exportData()
+    local translation = locales[lang]
+
     Game.onConfirmCb = onConfirm
     Game.onBeforeUndoCb = onBeforeUndo
     Game.onUndoCb = onUndo
 
-    -- Game.app 
-
+    -- Game.app
     Game.InitEquippedMetapedClothing()
 
     Game.PersonaEditorAppearance.Start()
@@ -65,7 +68,9 @@ Game.Start = function(ped, kind, onConfirm, onBeforeUndo, onUndo)
     UiApp.Launch(function()
         local defaultConfig = Game.LoadDefaultAppConfiguration()
 
-        UiApp.Emit("SetInitialState", defaultConfig)
+        UiApp.Emit('SetLocale', translation)
+        -- UiApp.Emit("SetInitialState", defaultConfig)
+
         -- local success, result = pcall()
         -- if not success then
             -- print("Ocorreu um error enquanto carregava as configurações inicias")
@@ -126,6 +131,7 @@ Game.OnStop = function()
 
     DeletePed(Game.clonePedId);
 end
+
 
 Game.GetPed = function()
     return Game.ped;
