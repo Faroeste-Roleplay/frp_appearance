@@ -21,8 +21,8 @@ escrow_ignore {
 
 shared_scripts {
 	"@ox_lib/init.lua",
-	"@frp_core/lib/utils.lua",
-	"@frp_core/lib/i18n.lua",
+	"@frp_lib/lib/utils.lua",
+	"@frp_lib/modules/utils/i18n.lua",
     'config.lua',
 	'locales/*.lua',
 }

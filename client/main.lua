@@ -14,7 +14,7 @@ Game.equippedMetapedClothing = {}
 Game.Start = function(ped, kind, onConfirm, onBeforeUndo, onUndo) 
     Game.ped = ped
 
-    local lang = GetExternalKvpString('frp_core', 'frp:language') or 'pt'
+    local lang = GetExternalKvpString('frp_lib', 'frp:language') or 'pt'
     local locales = i18n.exportData()
     local translation = locales[lang]
 
@@ -32,7 +32,7 @@ Game.Start = function(ped, kind, onConfirm, onBeforeUndo, onUndo)
 
     SetEntityVisible(Game.clonePedId, false);
     
-    exports.frp_core:clothingSystemPushRequest(Game.ped, 'CreateHeadOverlay', { });
+    cAPI.clothingSystemPushRequest(Game.ped, 'CreateHeadOverlay', { });
 
     local eMetapedHeadOverlayTypeRDR3 =
     {
@@ -57,7 +57,7 @@ Game.Start = function(ped, kind, onConfirm, onBeforeUndo, onUndo)
     }
 
     for _, overlay in pairs(eMetapedHeadOverlayTypeRDR3) do
-        exports.frp_core:clothingSystemPushRequest(Game.ped, "UpdateOverlayLayer",
+        cAPI.clothingSystemPushRequest(Game.ped, "UpdateOverlayLayer",
         {
             layerType =  eOverlayLayer[overlay],
             styleIndex = 1,
