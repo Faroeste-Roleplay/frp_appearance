@@ -11,6 +11,8 @@ ePersonaEditorKind =
 
 Game.equippedMetapedClothing = {}
 
+print(" dkjidpokdjdokpdjiodiojdjojd ")
+
 Game.Start = function(ped, kind, onConfirm, onBeforeUndo, onUndo) 
     Game.ped = ped
 
@@ -32,7 +34,7 @@ Game.Start = function(ped, kind, onConfirm, onBeforeUndo, onUndo)
 
     SetEntityVisible(Game.clonePedId, false);
     
-    cAPI.clothingSystemPushRequest(Game.ped, 'CreateHeadOverlay', { });
+    Game.clothingSystemPushRequest(Game.ped, 'CreateHeadOverlay', { });
 
     local eMetapedHeadOverlayTypeRDR3 =
     {
@@ -57,7 +59,7 @@ Game.Start = function(ped, kind, onConfirm, onBeforeUndo, onUndo)
     }
 
     for _, overlay in pairs(eMetapedHeadOverlayTypeRDR3) do
-        cAPI.clothingSystemPushRequest(Game.ped, "UpdateOverlayLayer",
+        Game.clothingSystemPushRequest(Game.ped, "UpdateOverlayLayer",
         {
             layerType =  eOverlayLayer[overlay],
             styleIndex = 1,

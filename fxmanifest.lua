@@ -3,7 +3,7 @@ games {"rdr3"}
 rdr3_warning 'I acknowledge that this is a prerelease build of RedM, and I am aware my resources *will* become incompatible once RedM ships.'
 
 name 'Appearance Editor'
-version '0.5'
+version '0.4'
 author 'KlandesTino'
 
 escrow_ignore {
@@ -22,13 +22,18 @@ escrow_ignore {
 shared_scripts {
 	"@ox_lib/init.lua",
 	"@frp_lib/lib/utils.lua",
-	"@frp_lib/modules/utils/i18n.lua",
+	"@frp_lib/lib/i18n.lua",
     'config.lua',
 	'locales/*.lua',
 }
 
 client_scripts {
 	"config.lua",
+	"@frp_lib/lib/dataview.lua",
+
+	"@frp_lib/data/horses_components.lua",
+	"@frp_lib/data/mp_overlay_layers.lua",
+	"@frp_lib/data/mp_peds_components.lua",
 
 	"data/eOverlayLayer.lua",
 	"data/expressions.lua",
@@ -44,6 +49,15 @@ client_scripts {
 	"client/personaEditorAppearance/main.lua",
 	"client/personaEditorCameraManager/main.lua",
 	"client/uiApp/main.lua",
+
+	"client/appearance/constants.lua",
+	"client/appearance/overlays.lua",
+	"client/appearance/main.lua",
+	"client/appearance/apparatusDatabase.lua",
+	"client/appearance/applyPersonaAppearance.lua",
+	"client/appearance/clothingSystemResolvers.lua",
+	"client/appearance/utils.lua",
+	"client/appearance/utils.js",
 }
 
 server_scripts {
