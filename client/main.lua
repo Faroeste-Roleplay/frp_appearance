@@ -11,12 +11,12 @@ ePersonaEditorKind =
 
 Game.equippedMetapedClothing = {}
 
-print(" dkjidpokdjdokpdjiodiojdjojd ")
-
 Game.Start = function(ped, kind, onConfirm, onBeforeUndo, onUndo) 
     Game.ped = ped
 
-    local lang = GetExternalKvpString('frp_lib', 'frp:language') or 'pt'
+    Game.kind = kind
+
+    local lang = i18n.getCurrentLanguage()
     local locales = i18n.exportData()
     local translation = locales[lang]
 
@@ -30,42 +30,47 @@ Game.Start = function(ped, kind, onConfirm, onBeforeUndo, onUndo)
     Game.PersonaEditorAppearance.Start()
     Game.PersonaEditorCameraManager.Start()
 
-    Game.clonePedId = ClonePed(Game.ped, true, true, false)
+    if kind == nil then
+        if Game.ped ~= PlayerPedId() then
+            Game.clonePedId = ClonePed(Game.ped, true, true, false)
+            SetEntityVisible(Game.clonePedId, false);
+            
+            Game.clothingSystemPushRequest(Game.ped, 'CreateHeadOverlay', { });
 
-    SetEntityVisible(Game.clonePedId, false);
-    
-    Game.clothingSystemPushRequest(Game.ped, 'CreateHeadOverlay', { });
+            local eMetapedHeadOverlayTypeRDR3 =
+            {
+                'MPC_OVERLAY_LAYER_SKIN_MOTTLING',
+                'MPC_OVERLAY_LAYER_AGEING',
+                'MPC_OVERLAY_LAYER_COMPLEXION',
+                -- 'MPC_OVERLAY_LAYER_COMPLEXION_2',
+                'MPC_OVERLAY_LAYER_FRECKLES',
+                'MPC_OVERLAY_LAYER_MOLES',
+                'MPC_OVERLAY_LAYER_SPOTS',
+                'MPC_OVERLAY_LAYER_FOUNDATION',
+                'MPC_OVERLAY_LAYER_BLUSHER',
+                'MPC_OVERLAY_LAYER_EYELINER',
+                'MPC_OVERLAY_LAYER_EYESHADOW',
+                'MPC_OVERLAY_LAYER_LIPSTICK',
+                'MPC_OVERLAY_LAYER_EYEBROWS',
+                'MPC_OVERLAY_LAYER_GRIME',
+                -- 'MPC_OVERLAY_LAYER_FACE_PAINT', // A gente não vai usar a Mascara.
+                'MPC_OVERLAY_LAYER_SCAR',
+                'MPC_OVERLAY_LAYER_FACIAL_HAIR',
+                'MPC_OVERLAY_LAYER_HEAD_HAIR',
+            }
 
-    local eMetapedHeadOverlayTypeRDR3 =
-    {
-        'MPC_OVERLAY_LAYER_SKIN_MOTTLING',
-        'MPC_OVERLAY_LAYER_AGEING',
-        'MPC_OVERLAY_LAYER_COMPLEXION',
-        -- 'MPC_OVERLAY_LAYER_COMPLEXION_2',
-        'MPC_OVERLAY_LAYER_FRECKLES',
-        'MPC_OVERLAY_LAYER_MOLES',
-        'MPC_OVERLAY_LAYER_SPOTS',
-        'MPC_OVERLAY_LAYER_FOUNDATION',
-        'MPC_OVERLAY_LAYER_BLUSHER',
-        'MPC_OVERLAY_LAYER_EYELINER',
-        'MPC_OVERLAY_LAYER_EYESHADOW',
-        'MPC_OVERLAY_LAYER_LIPSTICK',
-        'MPC_OVERLAY_LAYER_EYEBROWS',
-        'MPC_OVERLAY_LAYER_GRIME',
-        -- 'MPC_OVERLAY_LAYER_FACE_PAINT', // A gente não vai usar a Mascara.
-        'MPC_OVERLAY_LAYER_SCAR',
-        'MPC_OVERLAY_LAYER_FACIAL_HAIR',
-        'MPC_OVERLAY_LAYER_HEAD_HAIR',
-    }
-
-    for _, overlay in pairs(eMetapedHeadOverlayTypeRDR3) do
-        Game.clothingSystemPushRequest(Game.ped, "UpdateOverlayLayer",
-        {
-            layerType =  eOverlayLayer[overlay],
-            styleIndex = 1,
-            alpha =  0.0,
-        });
+            for _, overlay in pairs(eMetapedHeadOverlayTypeRDR3) do
+                Game.clothingSystemPushRequest(Game.ped, "UpdateOverlayLayer",
+                {
+                    layerType =  eOverlayLayer[overlay],
+                    styleIndex = 1,
+                    alpha =  0.0,
+                });
+            end
+        end
     end
+
+    -- print(" INICIOU UMA VEZ ::::::::::::::::::")
 
     UiApp.Launch(function()
         local defaultConfig = Game.LoadDefaultAppConfiguration()
@@ -124,14 +129,18 @@ Game.Start = function(ped, kind, onConfirm, onBeforeUndo, onUndo)
 end
 exports("Start", Game.Start)
 
-Game.OnStop = function()
+Game.Stop = function()
     UiApp.Close()
+
+    UiApp.UnregisterAllMethods()
 
     RenderScriptCams(false, true, 1000, true, true, 0);
 
     DestroyAllCams(true);
 
     DeletePed(Game.clonePedId);
+
+    Game.kind = nil
 end
 
 
@@ -151,7 +160,11 @@ Game.GetEquippedMetapedClothing = function()
 end
 
 Game.Undo = function()
-    ClonePedToTarget(Game.clonePedId, Game.ped);
+    if Game.kind == nil then
+        if Game.ped ~= PlayerPedId() then
+            ClonePedToTarget(Game.clonePedId, Game.ped);
+        end
+    end
 
     if Game.onUndoCb then
         Game.onUndoCb(Game.GetEquippedMetapedClothing())
@@ -182,12 +195,51 @@ RegisterNetEvent("startscript.scrPersonaEditor", function(options, kindName)
         return true
     end
     local function onBeforeUndo()
-        return true
+        local alert = lib.alertDialog({
+            header = i18n.translate("info.cancel_appearance"),
+            content = i18n.translate("info.have_sure"),
+            centered = true,
+            cancel = true
+        })
+
+        return alert == 'confirm'
     end
 
     local onUndo = options.onUndo
 
     Game.Start(ped, kind, onConfirm, onBeforeUndo, onUndo)
+end)
+
+RegisterCommand("openc", function()
+    local ped = PlayerPedId()
+
+    local function onConfirm(personaData)
+        -- local success = Game.RequestCreatePersona(personaData);
+
+        -- if success then
+            --- RETORNAR Criação de personagem
+            Game.Stop();
+        -- end
+        return true
+    end
+    
+    local function onBeforeUndo()
+        local alert = lib.alertDialog({
+            header = i18n.translate("info.cancel_appearance"),
+            content = i18n.translate("info.have_sure"),
+            centered = true,
+            cancel = true
+        })
+
+        return alert == 'confirm'
+    end
+
+    local function onUndo(personaData)
+        -- Game.Undo();
+        return true
+    end
+
+    local equippedMetapedClothing = Game.Start(ped, ePersonaEditorKind.PEK_Clothingstore, onConfirm, onBeforeUndo, onUndo)
 end)
 
 RegisterNetEvent("stopscript.scrPersonaEditor", function()

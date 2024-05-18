@@ -2,16 +2,16 @@ ctxSettingsInitialState =
 {
     appearance = {
         SKIN_COLOR =  {
-            min =  0,
-            max =  5
+            min =  1,
+            max =  6
         },
         BODY_TYPE = {
-            min =  0,
-            max =  4,
+            min =  1,
+            max =  5,
         },
         WAIST = {
-            min =  0,
-            max =  20
+            min =  1,
+            max =  21
         },
         PORTE = {
             min =  1,
@@ -22,8 +22,8 @@ ctxSettingsInitialState =
             max =  200
         },
         HEADS =  {
-            min =  0,
-            max =  15,
+            min =  1,
+            max =  16,
         },
         FACE_WIDTH =  {
             min =  -1.0,
@@ -31,20 +31,20 @@ ctxSettingsInitialState =
             factor =  0.1                    
         },
         HAIR =  {
-            min =  -1, -- -1 Remove o cabelo.
-            max =  15,
+            min =  0, -- -1 Remove o cabelo.
+            max =  16,
         },
         HAIR_COLOR =  {
-            min =  0,
-            max =  15,
+            min =  1,
+            max =  16,
         },
         BEARDS_COMPLETE =  {
-            min =  -1, -- -1 Remove a barba.
-            max =  15,
+            min =  0, -- -1 Remove a barba.
+            max =  16,
         },
         BEARDS_COMPLETE_COLOR =  {
-            min =  0,
-            max =  15,
+            min = 1,
+            max =  16,
         },
         HEAD_STUBBLE = {
             min =  0,

@@ -1,4 +1,13 @@
 i18n.importData("pt", {
+    info = {
+        cancel_appearance = "Fechar e cancelar?",
+        have_sure = "Tem certeza que deseja cancelar?"
+    },
+    BUTTONS = {
+        next = "Próximo",
+        confirm = "Confirmar",
+        back = "Voltar",
+    },
     STEPS_TITLE_AND_SUBTITLE = {
         [ePCStepType.None]          = { '', ''      },
         [ePCStepType.Body]          = { 'Personagem', 'Estrutura do personagem'      },
