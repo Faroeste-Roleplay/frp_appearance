@@ -14,6 +14,8 @@ Game.equippedMetapedClothing = {}
 Game.Start = function(ped, kind, onConfirm, onBeforeUndo, onUndo) 
     Game.ped = ped
 
+    Game.Enabled = true
+
     Game.kind = kind
 
     local lang = i18n.getCurrentLanguage()
@@ -30,10 +32,11 @@ Game.Start = function(ped, kind, onConfirm, onBeforeUndo, onUndo)
     Game.PersonaEditorAppearance.Start()
     Game.PersonaEditorCameraManager.Start()
 
+    Game.clonePedId = ClonePed(Game.ped, true, true, false)
+    SetEntityVisible(Game.clonePedId, false);
+    
     if kind == nil then
-        if Game.ped ~= PlayerPedId() then
-            Game.clonePedId = ClonePed(Game.ped, true, true, false)
-            SetEntityVisible(Game.clonePedId, false);
+        -- if Game.ped ~= PlayerPedId() then
             
             Game.clothingSystemPushRequest(Game.ped, 'CreateHeadOverlay', { });
 
@@ -67,7 +70,7 @@ Game.Start = function(ped, kind, onConfirm, onBeforeUndo, onUndo)
                     alpha =  0.0,
                 });
             end
-        end
+        -- end
     end
 
     -- print(" INICIOU UMA VEZ ::::::::::::::::::")
@@ -76,7 +79,8 @@ Game.Start = function(ped, kind, onConfirm, onBeforeUndo, onUndo)
         local defaultConfig = Game.LoadDefaultAppConfiguration()
 
         UiApp.Emit('SetLocale', translation)
-        -- UiApp.Emit("SetInitialState", defaultConfig)
+        -- print(" defaultConfig :: ", json.encode(defaultConfig, {indent=true}))
+        UiApp.Emit("SetInitialState", defaultConfig)
 
         -- local success, result = pcall()
         -- if not success then
@@ -140,6 +144,8 @@ Game.Stop = function()
 
     DeletePed(Game.clonePedId);
 
+    Game.Enabled = false
+
     Game.kind = nil
 end
 
@@ -160,11 +166,11 @@ Game.GetEquippedMetapedClothing = function()
 end
 
 Game.Undo = function()
-    if Game.kind == nil then
-        if Game.ped ~= PlayerPedId() then
+    -- if Game.kind == nil then
+        -- if Game.ped ~= PlayerPedId() then
             ClonePedToTarget(Game.clonePedId, Game.ped);
-        end
-    end
+        -- end
+    -- end
 
     if Game.onUndoCb then
         Game.onUndoCb(Game.GetEquippedMetapedClothing())
@@ -186,8 +192,11 @@ RegisterNetEvent("startscript.scrPersonaEditor", function(options, kindName)
     local function onConfirm()
         local equippedApparelsByType = Game.equippedMetapedClothing.equippedApparelsByType;
 
-        if equippedApparelsByType.size > 0 then
+        if #equippedApparelsByType > 0 then
             if kind == ePersonaEditorKind.PEK_Clothingstore then
+                TriggerServerEvent("apperance.updateAppearancePerformMerge", equippedApparelsByType)
+            end
+            if kind == ePersonaEditorKind.PEK_Barbershop then
                 TriggerServerEvent("apperance.updateAppearancePerformMerge", equippedApparelsByType)
             end
         end
@@ -210,20 +219,40 @@ RegisterNetEvent("startscript.scrPersonaEditor", function(options, kindName)
     Game.Start(ped, kind, onConfirm, onBeforeUndo, onUndo)
 end)
 
-RegisterCommand("openc", function()
-    local ped = PlayerPedId()
+-- RegisterCommand("openc", function()
+--     local ped = PlayerPedId()
 
-    local function onConfirm(personaData)
-        -- local success = Game.RequestCreatePersona(personaData);
+--     local function onConfirm(personaData)
+--         -- local success = Game.RequestCreatePersona(personaData);
 
-        -- if success then
-            --- RETORNAR Criação de personagem
-            Game.Stop();
-        -- end
-        return true
-    end
+--         -- if success then
+--             --- RETORNAR Criação de personagem
+--             Game.Stop();
+--         -- end
+--         return true
+--     end
     
-    local function onBeforeUndo()
+--     local function onBeforeUndo()
+--         local alert = lib.alertDialog({
+--             header = i18n.translate("info.cancel_appearance"),
+--             content = i18n.translate("info.have_sure"),
+--             centered = true,
+--             cancel = true
+--         })
+
+--         return alert == 'confirm'
+--     end
+
+--     local function onUndo(personaData)
+--         -- Game.Undo();
+--         return true
+--     end
+
+--     local equippedMetapedClothing = Game.Start(ped, ePersonaEditorKind.PEK_Clothingstore, onConfirm, onBeforeUndo, onUndo)
+-- end)
+
+RegisterNetEvent("stopscript.scrPersonaEditor", function()
+    if Game.Enabled then
         local alert = lib.alertDialog({
             header = i18n.translate("info.cancel_appearance"),
             content = i18n.translate("info.have_sure"),
@@ -231,17 +260,8 @@ RegisterCommand("openc", function()
             cancel = true
         })
 
-        return alert == 'confirm'
+        if  alert == 'confirm' then
+            Game.Undo()
+        end
     end
-
-    local function onUndo(personaData)
-        -- Game.Undo();
-        return true
-    end
-
-    local equippedMetapedClothing = Game.Start(ped, ePersonaEditorKind.PEK_Clothingstore, onConfirm, onBeforeUndo, onUndo)
-end)
-
-RegisterNetEvent("stopscript.scrPersonaEditor", function()
-    Game.Undo()
 end)

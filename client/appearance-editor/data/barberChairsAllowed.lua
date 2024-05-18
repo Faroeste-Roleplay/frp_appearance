@@ -1,0 +1,7 @@
+chairsAllow = 
+{
+    `P_BARBER_CHAIR03X`,
+    `P_BARBER_CHAIR01X`,
+    `P_BARBER_CHAIR02X`,
+    `PROP_PLAYER_BARBER_SEAT`  
+}
