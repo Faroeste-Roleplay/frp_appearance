@@ -34,6 +34,7 @@ Game.Start = function(ped, kind, onConfirm, onBeforeUndo, onUndo)
 
     Game.clonePedId = ClonePed(Game.ped, true, true, false)
     SetEntityVisible(Game.clonePedId, false);
+    SetEntityCollision(Game.clonePedId, false, true)
     
     if kind == nil then
         -- if Game.ped ~= PlayerPedId() then
@@ -79,7 +80,6 @@ Game.Start = function(ped, kind, onConfirm, onBeforeUndo, onUndo)
         local defaultConfig = Game.LoadDefaultAppConfiguration()
 
         UiApp.Emit('SetLocale', translation)
-        -- print(" defaultConfig :: ", json.encode(defaultConfig, {indent=true}))
         UiApp.Emit("SetInitialState", defaultConfig)
 
         -- local success, result = pcall()
@@ -189,15 +189,52 @@ RegisterNetEvent("startscript.scrPersonaEditor", function(options, kindName)
     local kind = ePersonaEditorKind[kindName]
     local ped = PlayerPedId()
     
-    local function onConfirm()
-        local equippedApparelsByType = Game.equippedMetapedClothing.equippedApparelsByType;
+    local function onConfirm(personaData)
+
+        local res = AppearanceServer.CanSaveModifications()
+
+        if not res then
+            cAPI.Notify("error", string.format(i18n.translate("error.does_not_have_money", PriceDefaultToPay)), 5000)
+            return false
+        end
+
+        
+        local equippedApparelsByType = personaData.equippedApparelsByType
+
+        -- for _, value in pairs(Game.equippedMetapedClothing.equippedApparelsByType) do 
+        --     table.insert(equippedApparelsByType, value)
+        -- end
 
         if #equippedApparelsByType > 0 then
             if kind == ePersonaEditorKind.PEK_Clothingstore then
-                TriggerServerEvent("apperance.updateAppearancePerformMerge", equippedApparelsByType)
+                local res = lib.alertDialog({
+                    header = i18n.translate("info.save_new_outfit"),
+                    content = i18n.translate("info.have_sure"),
+                    centered = true,
+                    cancel = true
+                })
+
+                local isNewOutfit = res == "confirm"
+                local outfitName = ""
+
+                if isNewOutfit then
+                    local input = lib.inputDialog(i18n.translate("info.new_outfit_name"), {i18n.translate("info.outfit")})
+
+                    if input and input[1] then
+                        outfitName = input[1]
+                    end
+                end
+
+                local res = AppearanceServer.updateAppearancePerformMerge(equippedApparelsByType, isNewOutfit, outfitName)
+                if res then
+                    Game.Stop()
+                end
             end
             if kind == ePersonaEditorKind.PEK_Barbershop then
-                TriggerServerEvent("apperance.updateAppearancePerformMerge", equippedApparelsByType)
+                local res = AppearanceServer.updateAppearanceBarberShop(equippedApparelsByType, Game.equippedMetapedClothing.overlayLayersMap)
+                if res then
+                    Game.Stop()
+                end
             end
         end
 

@@ -1,5 +1,7 @@
 DEBUG_MODE = true
 
+PriceDefaultToPay = 2
+
 ePCStepType =
 {
     None = 0,

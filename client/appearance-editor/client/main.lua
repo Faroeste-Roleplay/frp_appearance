@@ -6,9 +6,9 @@ function Stop()
     OnStop()
 end
 
-AddEventHandler('glow:onSessionStartedPlaying', Start)
+AddEventHandler('API:onSessionStartedPlaying', Start)
 
-AddEventHandler('glow:onSessionStoppedPlaying', Stop)
+AddEventHandler('API:onSessionStoppedPlaying', Stop)
 
 CreateThread(function()
     if cAPI.IsPlayerInitialized() then

@@ -1,7 +1,13 @@
 i18n.importData("en", {
     info = {
         cancel_appearance = "Close and cancel appearance change",
-        have_sure = "Do you have a sure?"
+        have_sure = "Do you have a sure?",
+        save_new_outfit = "do you want save like a new outfit?",
+        new_outfit_name = "Whats its the outfit name?",
+        outfit = "Outfit",
+    },
+    error = {
+        does_not_have_money = "Does not have $%s",
     },
     BUTTONS = {
         next = "Next",
