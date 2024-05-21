@@ -39,7 +39,7 @@ i18n.importData("en", {
         [ePCStepType.Body] =
         {
             [ePCStepImplBodyButtonType.SKIN_COLOR] = { 'Skin Color', 'Select your skin tone.' },
-            [ePCStepImplBodyButtonType.BODY_TYPE] = { 'Body Type', 'Select your body type.' },
+            [ePCStepImplBodyButtonType.BODY_TYPE] = { 'Skin (Type)', 'Select your skin body type.' },
             [ePCStepImplBodyButtonType.WAIST] = { 'Body Fat', 'Select body fat.' },
             [ePCStepImplBodyButtonType.PORTE] = { 'Physical Build', 'Select your physical build.' },
             [ePCStepImplBodyButtonType.HEIGHT] = { 'Height', 'Select your character\'s height.' },

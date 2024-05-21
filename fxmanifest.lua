@@ -3,7 +3,7 @@ games {"rdr3"}
 rdr3_warning 'I acknowledge that this is a prerelease build of RedM, and I am aware my resources *will* become incompatible once RedM ships.'
 
 name 'Appearance Editor'
-version '0.8'
+version '0.8.1'
 author 'KlandesTino'
 
 escrow_ignore {
@@ -45,7 +45,6 @@ client_scripts {
 	'client/framework.lua',
 	"client/methods.lua",
 	"client/utils.lua",
-	"client/utils.js",
 
 	"client/personaEditorAppearance/main.lua",
 	"client/personaEditorCameraManager/main.lua",
@@ -58,7 +57,6 @@ client_scripts {
 	"client/appearance/applyPersonaAppearance.lua",
 	"client/appearance/clothingSystemResolvers.lua",
 	"client/appearance/utils.lua",
-	"client/appearance/utils.js",
 	
 	"client/appearance-editor/client/main.lua",
 	"client/appearance-editor/data/AppearanceEditorInfoDatabase.lua",

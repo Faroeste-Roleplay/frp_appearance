@@ -6,9 +6,9 @@ function Stop()
     OnStop()
 end
 
-AddEventHandler('API:onSessionStartedPlaying', Start)
+RegisterNetEvent('FRP:onCharacterLoaded', Start)
 
-AddEventHandler('API:onSessionStoppedPlaying', Stop)
+RegisterNetEvent('FRP:onCharacterLogout', Stop)
 
 CreateThread(function()
     if cAPI.IsPlayerInitialized() then

@@ -60,8 +60,8 @@ function AppearanceServer.updateAppearanceBarberShop(equippedApparelsByType, ove
         return cAPI.Notify(playerId, "error", string.format(i18n.translate("error.does_not_have_money", PriceDefaultToPay)))
     end
 
-    print(" overlayData :: ", json.encode(overlayData, {indent=true}))
-    print(" equippedApparelsByType :: ", json.encode(equippedApparelsByType, {indent=true}))
+    -- print(" overlayData :: ", json.encode(overlayData, {indent=true}))
+    -- print(" equippedApparelsByType :: ", json.encode(equippedApparelsByType, {indent=true}))
 
     return true
 end

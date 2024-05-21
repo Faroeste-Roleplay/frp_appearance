@@ -382,14 +382,178 @@ ctxSettingsInitialState =
             factor =  1
         },        
         WHISTLE_PITCH = {
-            min =  1,
+            min =  0,
             max =  1,
             factor =  0.1
         },        
         WHISTLE_CLARITY = {
-            min =  1,
+            min =  0,
             max =  1,
             factor =  0.1
+        },
+
+        AcneColor =
+        {
+            min = 0,
+            max = 255,
+        },        
+        AcneStyle =
+        {
+            min = 0,
+            max = 15,
+        },
+
+
+        EyebrowsColor =
+        {
+            min = 0,
+            max = 255,
+        },
+        EyebrowsStyle =
+        {
+            min = 0,
+            max = 23,
+        },
+
+        AgeingStyle =
+        {
+            min = 0,
+            max = 24,
+        },
+
+        ScarColor =
+        {
+            min = 0,
+            max = 255,
+        },
+        ScarStyle =
+        {
+            min = 0,
+            max = 15,
+        },
+
+        FacialHairColor =
+        {
+            min = 0,
+            max = 255,
+        },
+
+        FacePaintColor =
+        {
+            min = 0,
+            max = 255,
+        },
+
+        LipstickColor =
+        {
+            min = 0,
+            max = 255,
+        },
+
+        EyeLinerColor =
+        {
+            min = 0,
+            max = 255,
+        },
+        EyeshadowColor =
+        {
+            min = 0,
+            max = 255,
+        },
+
+        BlusherColor =
+        {
+            min = 0,
+            max = 255,
+        },
+        BlusherStyle =
+        {
+            min = 0,
+            max = 3,
+        },
+
+        ComplexionColor =
+        {
+            min = 0,
+            max = 255,
+        },
+        ComplexionStyle =
+        {
+            min = 0,
+            max = 14,
+        },
+
+        FoundationColor =
+        {
+            min = 0,
+            max = 255,
+        },
+
+        SkinMottlingColor =
+        {
+            min = 0,
+            max = 255,
+        },
+        SkinMottlingStyle =
+        {
+            min = 0,
+            max = 15,
+        },
+
+        FrecklesColor =
+        {
+            min = 0,
+            max = 255,
+        },
+        FrecklesStyle =
+        {
+            min = 0,
+            max = 14,
+        },
+
+        
+        GrimeColor =
+        {
+            min = 0,
+            max = 255,
+        },
+        GrimeStyle =
+        {
+            min = 0,
+            max = 15,
+        },
+
+        HeadHairColor =
+        {
+            min = 0,
+            max = 255,
+        },
+        HeadHairStyle =
+        {
+            min = 0,
+            max = 3,
+        },
+
+        MolesColor =
+        {
+            min = 0,
+            max = 255,
+        },
+        MolesStyle =
+        {
+            min = 0,
+            max = 15,
+        },
+
+        SpotsColor =
+        {
+            min = 0,
+            max = 255,
+        },
+        SpotsStyle =
+        {
+            min = 0,
+            max = 15,
         },
     }
 }
