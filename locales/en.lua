@@ -2,9 +2,18 @@ i18n.importData("en", {
     info = {
         cancel_appearance = "Close and cancel appearance change",
         have_sure = "Do you have a sure?",
-        save_new_outfit = "do you want save like a new outfit?",
+        do_you_wanna_save = "Do you wanna confirm?",
+        save_new_outfit = "Do you want save like a new outfit?",
         new_outfit_name = "Whats its the outfit name?",
         outfit = "Outfit",
+        close = "Close",
+        buy_new_clothes = "Buy new clothes",
+        tailor_shop = "Tailor shop",
+        save_new_like_outfit = 'Save new outfit',
+        choose_new_outfit = 'Choose an outfit',
+        delete_an_outfit = 'Delete an outfit',
+        delete_outfit = "Delete outfit",
+        delete_msg_confirmation = 'Do you really want to delete the outfit (%s), this action is irreversible'
     },
     error = {
         does_not_have_money = "Does not have $%s",
@@ -155,7 +164,8 @@ i18n.importData("en", {
             [eAppearanceFace.EYELINER_COLOR] = {'Eyeliner', 'Select eyeliner color'},
             [eAppearanceFace.EYELINER_OPACITY] = {'Opacity', 'Select eyeliner opacity'},
 
-            [eAppearanceFace.LIPSTICK_COLOR] = {'Lipstick', 'Select lipstick opacity'},
+            [eAppearanceFace.LIPSTICK_STYLE] = {'Lipstick Style', 'Select lipstick Style'},
+            [eAppearanceFace.LIPSTICK_COLOR] = {'Lipstick Color', 'Select lipstick Color'},
             [eAppearanceFace.LIPSTICK_OPACITY] = {'Lipstick Opacity', 'Select lipstick opacity'},
             
             [eAppearanceFace.EYESHADOW_COLOR] = {'Eyeshadow', 'Select eyeshadow opacity'},

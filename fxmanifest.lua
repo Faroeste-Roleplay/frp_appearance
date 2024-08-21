@@ -21,6 +21,28 @@ escrow_ignore {
 	"client/appearance-editor/data/barberChairsAllowed.lua",
 
     'config.lua',
+
+	------
+	"client/methods.lua",
+	"client/utils.lua",
+
+	"client/personaEditorAppearance/main.lua",
+	"client/personaEditorCameraManager/main.lua",
+	"client/uiApp/main.lua",
+
+	"client/appearance/constants.lua",
+	-- "client/appearance/overlays.lua",
+	-- "client/appearance/main.lua",
+	-- "client/appearance/apparatusDatabase.lua",
+	-- "client/appearance/applyPersonaAppearance.lua",
+	-- "client/appearance/clothingSystemResolvers.lua",
+	-- "client/appearance/utils.lua",
+	
+	"client/appearance-editor/client/main.lua",
+	"client/appearance-editor/data/AppearanceEditorInfoDatabase.lua",
+	"client/appearance-editor/data/barberChairsAllowed.lua",
+	
+	'server/main.lua'
 }
 
 shared_scripts {
@@ -50,6 +72,8 @@ client_scripts {
 	"client/personaEditorCameraManager/main.lua",
 	"client/uiApp/main.lua",
 
+	"client/outfit/menu.lua",
+
 	"client/appearance/constants.lua",
 	"client/appearance/overlays.lua",
 	"client/appearance/main.lua",
@@ -64,7 +88,8 @@ client_scripts {
 }
 
 server_scripts {
-	'server/main.lua'
+	'server/main.lua',
+	"data/metapedBodyApparatus.lua",
 }
 
 

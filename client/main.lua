@@ -38,6 +38,7 @@ Game.Start = function(ped, kind, onConfirm, onBeforeUndo, onUndo)
     
     if kind == nil then
         -- if Game.ped ~= PlayerPedId() then
+            gMetapedClothingSystemOverlayHandler = MetapedClothingSystemOverlayHandler.createPlayer()
             
             Game.clothingSystemPushRequest(Game.ped, 'CreateHeadOverlay', { });
 
@@ -75,6 +76,10 @@ Game.Start = function(ped, kind, onConfirm, onBeforeUndo, onUndo)
     end
 
     -- print(" INICIOU UMA VEZ ::::::::::::::::::")
+
+    -- if kind ==  ePersonaEditorKind.PEK_Barbershop then
+    --     Game.clothingSystemPushRequest(Game.ped, 'CreateHeadOverlay', { });
+    -- end
 
     UiApp.Launch(function()
         local defaultConfig = Game.LoadDefaultAppConfiguration()
@@ -138,11 +143,13 @@ Game.Stop = function()
 
     UiApp.UnregisterAllMethods()
 
-    RenderScriptCams(false, true, 1000, true, true, 0);
+    RenderScriptCams(false, true, 500, true, true, 0);
 
     DestroyAllCams(true);
 
     DeletePed(Game.clonePedId);
+
+    ClearPedTasks(Game.ped)
 
     Game.Enabled = false
 
@@ -180,24 +187,55 @@ Game.Undo = function()
 end
 
 Game.Confirm = function()
-    if Game.onConfirmCb and Game.onConfirmCb(Game.GetEquippedMetapedClothing()) then
+    if Game.onConfirmCb then
+        local data = Game.GetEquippedMetapedClothing()
+        Game.onConfirmCb(data)
+        -- print("Confirm ")
         -- Game.OnStop()
     end
 end
 
+local function apparelsLength(equippedApparelsByType)
+    local length = 0
+
+    for _, _ in pairs(equippedApparelsByType) do 
+        length += 1
+    end
+
+    -- print(" apparelsLength :: ", length)
+
+    return length
+end
+
 RegisterNetEvent("startscript.scrPersonaEditor", function(options, kindName)
+    -- print(" startscript.scrPersonaEditor  :: ", kindName)
+
+
     local kind = ePersonaEditorKind[kindName]
     local ped = PlayerPedId()
     
-    local function onConfirm(personaData)
+    local function onConfirmHandler(personaData)
+        -- print(" onConfirm  :: ", json.encode(personaData, {indent=true}))
 
         local res = AppearanceServer.CanSaveModifications()
+
+        -- print(" res  :: ", res)
 
         if not res then
             cAPI.Notify("error", string.format(i18n.translate("error.does_not_have_money", PriceDefaultToPay)), 5000)
             return false
         end
+        
+        local res = lib.alertDialog({
+            header = i18n.translate("info.do_you_wanna_save"),
+            content = i18n.translate("info.have_sure"),
+            centered = true,
+            cancel = true
+        })
 
+        if res == "cancel" then
+            return
+        end
         
         local equippedApparelsByType = personaData.equippedApparelsByType
 
@@ -205,8 +243,9 @@ RegisterNetEvent("startscript.scrPersonaEditor", function(options, kindName)
         --     table.insert(equippedApparelsByType, value)
         -- end
 
-        if #equippedApparelsByType > 0 then
+        if apparelsLength(equippedApparelsByType) > 0 then
             if kind == ePersonaEditorKind.PEK_Clothingstore then
+
                 local res = lib.alertDialog({
                     header = i18n.translate("info.save_new_outfit"),
                     content = i18n.translate("info.have_sure"),
@@ -224,8 +263,9 @@ RegisterNetEvent("startscript.scrPersonaEditor", function(options, kindName)
                         outfitName = input[1]
                     end
                 end
+                local apparelsToChange = Game.GetOnlyOutfitApparels( equippedApparelsByType )
 
-                local res = AppearanceServer.updateAppearancePerformMerge(equippedApparelsByType, isNewOutfit, outfitName)
+                local res = AppearanceServer.updateAppearancePerformMerge(apparelsToChange, isNewOutfit, outfitName)
                 if res then
                     Game.Stop()
                 end
@@ -245,7 +285,10 @@ RegisterNetEvent("startscript.scrPersonaEditor", function(options, kindName)
             header = i18n.translate("info.cancel_appearance"),
             content = i18n.translate("info.have_sure"),
             centered = true,
-            cancel = true
+            cancel = true,
+            labels = {
+                confirm = i18n.translate("info.close")
+            }
         })
 
         return alert == 'confirm'
@@ -253,7 +296,7 @@ RegisterNetEvent("startscript.scrPersonaEditor", function(options, kindName)
 
     local onUndo = options.onUndo
 
-    Game.Start(ped, kind, onConfirm, onBeforeUndo, onUndo)
+    Game.Start(ped, kind, onConfirmHandler, onBeforeUndo, onUndo)
 end)
 
 -- RegisterCommand("openc", function()

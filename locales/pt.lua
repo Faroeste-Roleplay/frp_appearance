@@ -2,9 +2,19 @@ i18n.importData("pt", {
     info = {
         cancel_appearance = "Fechar e cancelar?",
         have_sure = "Tem certeza que deseja cancelar?",
+        do_you_wanna_save = "Deseja confirmar?",
         save_new_outfit = "Deseja salvar como um novo outfit?",
         new_outfit_name = "Qual o nome do novo outfit?",
         outfit = "Outfit",
+        close = "Fechar",
+
+        buy_new_clothes = "Comprar roupas",
+        tailor_shop = "Tailor shop",
+        save_new_like_outfit = 'Salvar novo outfit',
+        choose_new_outfit = 'Escolher um outfit',
+        delete_an_outfit = 'Deletar um outfit',
+        delete_outfit = "Deletar outfit",
+        delete_msg_confirmation = 'Deseja realmente deletar o outfit (%s), essa ação é irreversível'
     },
     error = {
         does_not_have_money = "Não tem $%s",
@@ -158,8 +168,9 @@ i18n.importData("pt", {
             [eAppearanceFace.EYELINER_COLOR] = {'Deleniador', 'Selecione a cor do deleniador'},
             [eAppearanceFace.EYELINER_OPACITY] = {'Opacidade', 'Selecione a opacidade das deleniador'},
 
-            [eAppearanceFace.LIPSTICK_COLOR] = {'Batom', 'Selecione a opacidade das sardas'},
-            [eAppearanceFace.LIPSTICK_OPACITY] = {'Batom Opacidade', 'Selecione a opacidade das sardas'},
+            [eAppearanceFace.LIPSTICK_STYLE] = {'Batom Estilo', 'Selecione o estilo do batom'},
+            [eAppearanceFace.LIPSTICK_COLOR] = {'Batom Cor', 'Selecione a cor do batom'},
+            [eAppearanceFace.LIPSTICK_OPACITY] = {'Batom Opacidade', 'Selecione a opacidade do batom'},
             
             [eAppearanceFace.EYESHADOW_COLOR] = {'Sombra', 'Selecione a opacidade da sujeira'},
             [eAppearanceFace.EYESHADOW_OPACITY] = {'Sombra Opacidade', 'Selecione a opacidade das sardas'},

@@ -98,14 +98,10 @@ function OnEnterAppearanceEditorVolume(appearanceEditorInfo, position)
                 while not Citizen.InvokeNative(0xAA135F9482C82CC3, PlayerPedId(), `PROP_PLAYER_BARBER_SEAT`) do
                     Wait(100)
                 end
+                
             end
-            
-            TriggerEvent('startscript.scrPersonaEditor',
-            {
-                onUndo = function()
-                    ClearPedTasks(PlayerPedId(), 0, 0)
-                end,
-            }, kind)
+
+            TriggerEvent("appearance:shop:menu", kind)
         end
 
         PromptSetActiveGroupThisFrame(gPromptGroupId, CreateVarString(10, 'LITERAL_STRING', displayName))
@@ -179,6 +175,47 @@ function animToSeatOnChair()
         end
     end
 end
+
+local function openAppearanceMenu( kind )
+    TriggerEvent('startscript.scrPersonaEditor',
+    {
+        onUndo = function()
+            ClearPedTasks(PlayerPedId(), 0, 0)
+        end,
+    }, kind)
+end
+
+local function openShopMenu( kind )
+
+    if kind == 'PEK_Clothingstore' then
+        lib.registerContext({
+            id = 'clothing_store_menu',
+            title = i18n.translate("info.tailor_shop"),
+            options = {
+                {
+                    title = i18n.translate("info.buy_new_clothes"),
+                    onSelect = function()
+                        openAppearanceMenu( kind )
+                    end
+                },
+                {
+                    title = i18n.translate("info.choose_new_outfit"),
+                    onSelect = function()
+                        TriggerEvent("appearance:outfit:menu")
+                    end
+                }
+            }
+        })
+        
+        lib.showContext('clothing_store_menu')
+        return
+    end
+
+    openAppearanceMenu( kind )
+end
+
+
+RegisterNetEvent("appearance:shop:menu", openShopMenu)
 
 -- -- To cancel scenario with infinite duration u can use CLEAR_PED_TASKS (ped plays exit animation) or CLEAR_PED_TASKS_IMMEDIATELY (ped dont play exit animation):
 -- Citizen.InvokeNative(0xE1EF3C1216AFF2CD, PlayerPedId(), 0, 0)  -- CLEAR_PED_TASKS

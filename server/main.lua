@@ -11,9 +11,9 @@ Tunnel.bindInterface("frp_appearance", AppearanceServer)
 Proxy.addInterface("frp_appearance", AppearanceServer)
 
 function AppearanceServer.CanSaveModifications( )
-    local playerId = source
-    local hasMoney = Inventory.GetItem(playerId, "money", nil, true) >= PriceDefaultToPay
-    return hasMoney
+    -- local playerId = source
+    -- local hasMoney = Inventory.GetItem(playerId, "money", nil, true) >= PriceDefaultToPay
+    return true
 end
 
 local function RemoveMoneyToSave(source)
@@ -48,20 +48,47 @@ function AppearanceServer.updateAppearancePerformMerge( equippedApparelsByType, 
     return false
 end
 
-
-function AppearanceServer.updateAppearanceBarberShop(equippedApparelsByType, overlayData )
+function AppearanceServer.updateAppearanceBarberShop( equippedApparelsByType, overlayData )
+    print("updateAppearanceBarberShop :: ",equippedApparelsByType, overlayData)
     local playerId = source
     local User = API.GetUserFromSource(playerId)
     local Character = User:GetCharacter()
 
-    local paid = RemoveMoneyToSave(playerId)
+    -- local paid = RemoveMoneyToSave(playerId)
 
-    if not paid then
-        return cAPI.Notify(playerId, "error", string.format(i18n.translate("error.does_not_have_money", PriceDefaultToPay)))
-    end
+    -- if not paid then
+    --     return cAPI.Notify(playerId, "error", string.format(i18n.translate("error.does_not_have_money", PriceDefaultToPay)))
+    -- end
 
-    -- print(" overlayData :: ", json.encode(overlayData, {indent=true}))
-    -- print(" equippedApparelsByType :: ", json.encode(equippedApparelsByType, {indent=true}))
+    print(" overlayData :: ", json.encode(overlayData, {indent=true}))
+    print(" equippedApparelsByType :: ", json.encode(equippedApparelsByType, {indent=true}))
+
+    --- por para salvar
 
     return true
+end
+
+function AppearanceServer.GetOutfitList()
+    local playerId = source
+    local User = API.GetUserFromSource(playerId)
+    local Character = User:GetCharacter()
+
+    return Character:GetOutfitList()
+end
+
+function AppearanceServer.SetCurrentOutfit( outfitId )
+    local playerId = source
+    local User = API.GetUserFromSource(playerId)
+    local Character = User:GetCharacter()
+
+    Character:SetCurrentOutfit( outfitId )
+    Character:SetGameAppearance()
+end
+
+function AppearanceServer.DeleteOutfit( outfitId )
+    local playerId = source
+    local User = API.GetUserFromSource(playerId)
+    local Character = User:GetCharacter()
+
+    Character:DeleteOutfitFromId( outfitId )
 end
