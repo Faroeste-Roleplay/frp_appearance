@@ -301,7 +301,7 @@ ctxSettingsInitialState =
 
         EYES_COLOR =  {
             min =  1,
-            max =  15,
+            max =  14,
         },        
         SCARS_STYLE = {
             min =  1,

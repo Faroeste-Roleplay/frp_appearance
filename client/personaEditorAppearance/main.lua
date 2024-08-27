@@ -21,7 +21,6 @@ Game.PersonaEditorAppearance.UpdatePedEquippedMetapedClothingStoredOverlayLayer 
     local new = exports.frp_lib:mergeObjectData(current, propertiesToMerge)
 
     overlayLayersMap[overlayLayerType] = new
-    -- DEBUG("updatePedEquippedMetapedClothingStoredOverlayLayer", current)
 end
 
 Game.PersonaEditorAppearance.HandleRequestChangeOverlayLayerStyle = function(request)
@@ -86,6 +85,7 @@ Game.PersonaEditorAppearance.HandleRequestChangeAppearance = function(data)
 
             local ped = Game.ped;
 
+            -- local offset = IsPedMale(ped) and 132 or 113;
             local offset = IsPedMale(ped) and 132 or 114;
 
             local finalIndex = offset + data.data;
@@ -94,6 +94,7 @@ Game.PersonaEditorAppearance.HandleRequestChangeAppearance = function(data)
             -- finalIndex
         
             Citizen.InvokeNative(0xA5BAE410B03E7371, ped, finalIndex, false, true);
+    
             Citizen.InvokeNative(0xCC8CA3E88256E58F, ped, 0, 1, 1, 1, 0);
 
             Game.equippedMetapedClothing.bodyKindType = finalIndex;
@@ -110,7 +111,6 @@ end
 
 Game.PersonaEditorAppearance.RequestChangeApparatus = function(request)
     local equippedMetapedClothing = Game.requestChangeApparatus(Game.ped, request)
-    -- print(" equippedMetapedClothing :: ", json.encode(equippedMetapedClothing, {indent=true}))
 end
 
 Game.PersonaEditorAppearance.HandleRequestChangeBodyWeightOutfit = function(data)
@@ -167,12 +167,9 @@ end
 
 Game.PersonaEditorAppearance.HandleRequestUpdateExpression = function(data)
 
-    -- print(" HandleRequestUpdateExpression :: ", json.encode(data, {indent=true}))
     local expressionTypeNameOrPairName, value = data.component, data.data
 
     local expressionPairTypes = expressionSettings[expressionTypeNameOrPairName] or { eExpression[expressionTypeNameOrPairName] }
-
-    -- print(" expressionPairTypes :: ", json.encode(expressionPairTypes))
 
     local expressionPairValues
 
@@ -183,8 +180,6 @@ Game.PersonaEditorAppearance.HandleRequestUpdateExpression = function(data)
     else
         expressionPairValues = type(value) == "object" and { value?.x } or { value }
     end
-
-    -- print(" expressionPairValues :: ", json.encode(expressionPairValues))
 
     local expressionsToUpdate = {}
 
@@ -206,8 +201,6 @@ Game.PersonaEditorAppearance.HandleRequestUpdateExpression = function(data)
     local ped = Game.ped
 
     local expressionsMap = Game.equippedMetapedClothing.expressionsMap
-
-    -- print(" expressionsToUpdate :: ", json.encode(expressionsToUpdate))
 
     for _, ex in pairs(expressionsToUpdate) do
         local expressionType, expressionValue = ex.expressionType, ex.expressionValue

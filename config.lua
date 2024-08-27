@@ -1,6 +1,6 @@
-DEBUG_MODE = true
+DEBUG_MODE = false
 
-PriceDefaultToPay = 2
+PriceDefaultToPay = 3.0
 
 ePCStepType =
 {
