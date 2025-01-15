@@ -8,6 +8,23 @@ Game.InitEquippedMetapedClothing = function()
     -- print("     Game.equippedMetapedClothing :: ", json.encode(    Game.equippedMetapedClothing))
 end
 
+Game.RequestMaxApparatusByType = function( type, apparel )
+    local indexComp = exports.frp_lib:snakeToPascal(type)
+
+    local apparelTypeUnkType = eMetapedBodyApparatusType[indexComp];
+
+    if not apparelTypeUnkType then
+        return nil
+    end
+
+    local apparelType = tonumber(apparelTypeUnkType);
+
+    local componentsSize = #gMpPedsComponents[apparelType + 1][Game.pedGender][apparel]
+
+    return componentsSize
+end
+
+
 Game.LoadDefaultAppConfiguration = function()
     local typesThatAllowRemoval =
     {
@@ -43,7 +60,7 @@ Game.LoadDefaultAppConfiguration = function()
             ctxSettingsInitialState.appearance[component].min = 0;
         end
 
-        ctxSettingsInitialState.appearance[component].max = modelSize - 1
+        ctxSettingsInitialState.appearance[component].max = modelSize
 
         local str = string.format("%s_COLOR", component)
 

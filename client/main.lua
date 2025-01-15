@@ -105,6 +105,7 @@ Game.Start = function(ped, kind, onConfirm, onBeforeUndo, onUndo)
 
         UiApp.On("change_persona_appearance", function(data, cb)
             Game.PersonaEditorAppearance.HandleRequestChangeAppearance(data.body);
+            Game.PersonaEditorAppearance.HandleRequestNewMaxAppearanceStatus(data.body);
             cb({ ok = true });
         end)
 

@@ -69,6 +69,15 @@ Game.PersonaEditorAppearance.HandleRequestChangeOverlayLayerOpacity = function(r
     });
 end
 
+Game.PersonaEditorAppearance.HandleRequestNewMaxAppearanceStatus = function( data )
+    local maxValue = Game.RequestMaxApparatusByType( data.component, data.data )
+
+    if maxValue ~= nil then
+        UiApp.Emit('SetNewMaxAppearanceStatus', { component = data.component, maxValue = maxValue })
+    end
+end
+
+
 Game.PersonaEditorAppearance.HandleRequestChangeAppearance = function(data)
     local route = data.type;
     local customizingPed = Game.ped;
