@@ -273,6 +273,14 @@ ctxSettingsInitialState =
             min =  1,
             max =  10,
         },
+        JEWELRY_RINGS_LEFT =  {
+            min =  0,
+            max =  10,
+        },
+        JEWELRY_RINGS_LEFT_COLOR =  {
+            min =  1,
+            max =  10,
+        },
         JEWELRY_BRACELETS =  {
             min =  0,
             max =  10,

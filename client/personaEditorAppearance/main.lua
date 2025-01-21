@@ -72,7 +72,7 @@ end
 Game.PersonaEditorAppearance.HandleRequestNewMaxAppearanceStatus = function( data )
     local maxValue = Game.RequestMaxApparatusByType( data.component, data.data )
 
-    if maxValue ~= nil then
+    if maxValue ~= nil and maxValue > 0 then
         UiApp.Emit('SetNewMaxAppearanceStatus', { component = data.component, maxValue = maxValue })
     end
 end

@@ -268,10 +268,8 @@ i18n.importData("pt", {
             [ePCStepStoreAccessoriesButtonType.BOOT_ACCESSORIES] = {'Acessório para Bota', 'Selecione seu Acessório para Bota'},
             [ePCStepStoreAccessoriesButtonType.BOOT_ACCESSORIES_COLOR] = {'Cor', 'Selecione cor do seu Acessório para Bota'},
 
-            /*
             [ePCStepStoreAccessoriesButtonType.MASKS] = {'Mascara', 'Selecione sua Mascara'},
             [ePCStepStoreAccessoriesButtonType.MASKS_COLOR] = {'Cor', 'Selecione a cor de sua Mascara'},
-            */
 
             [ePCStepStoreAccessoriesButtonType.SPATS] = {'Caneleira', 'Selecione a caneleira'},
             [ePCStepStoreAccessoriesButtonType.SPATS_COLOR] = {'Cor', 'Selecione cor da sua Caneleira'},
