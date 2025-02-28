@@ -9,7 +9,7 @@ Game.PersonaEditorCameraManager.Start = function()
                 point = { x = 0.0, y = 0, z = -0.05 }
             },
             head = {
-                coords = { x = 0, y = 1.2, z = 0.65 },
+                coords = { x = 0, y = 0.5, z = 0.6 },
                 point = { x = 0.0, y = 0, z = 0.6 }
             },
             body = {
@@ -17,15 +17,15 @@ Game.PersonaEditorCameraManager.Start = function()
                 point = { x = 0.0, y = 0, z = 0.2 }
             },
             bottom = {
-                coords = { x = 0, y = 0.98, z = -0.6 },
+                coords = { x = 0, y = 1.0, z = -0.6 },
                 point = { x = 0.0, y = 0, z = -0.8 }
             }
         },
         offsets = {
             default = { x = 1.5, y = -1 },
-            head = { x = 0.7, y = -0.45 },
+            head = { x = 0.7, y = -0.6 },
             body = { x = 1.2, y = -0.45 },
-            bottom = { x = 0.7, y = -0.45 }
+            bottom = { x = 1.0, y = -0.45 }
         }
     }
 end
@@ -39,8 +39,8 @@ Game.PersonaEditorCameraManager.HandleRequest = function(data)
     local direction
 
     if data == 'camera_1' then
-        local boneIndex = GetPedBoneIndex(customizingPed, 21030) -- skel_head
-        local hX, hY, headCoordsZ = GetWorldPositionOfEntityBone(customizingPed, boneIndex)
+        -- local boneIndex = GetPedBoneIndex(customizingPed, 21030) -- skel_head
+        -- local hX, hY, headCoordsZ = GetWorldPositionOfEntityBone(customizingPed, boneIndex)
         camData = 'head'
     elseif data == 'camera_2' then
         camData = 'body'
@@ -121,7 +121,7 @@ Game.PersonaEditorCameraManager.CreateFakeCam = function(data, customPed, direct
         (coords.y + offset.y) * reverseFactor,
         coords.z)
     
-    local camPoint = GetOffsetFromEntityInWorldCoords(customizingPedId, point.x + offsetNui, point.y, point.z)
+    local camPoint = GetOffsetFromEntityInWorldCoords(customizingPedId, point.x + offsetNui, point.y - offsetNui, point.z)
     
     if data == "head" then
         local boneIndex = GetPedBoneIndex(customizingPedId, 21030) -- skel_head

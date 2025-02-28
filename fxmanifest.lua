@@ -106,3 +106,4 @@ files {
 
 lua54 'yes'
 dependency '/assetpacks'
+dependency '/assetpacks-redm'

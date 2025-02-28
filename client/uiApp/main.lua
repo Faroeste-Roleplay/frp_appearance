@@ -2,10 +2,12 @@ UiApp = {}
 UiApp.Registereds = {}
 
 UiApp.Launch = function(fn)
+
     UiApp.SetRoute("appearance")
+    UiApp.Emit('SetInterfaceDisplay', true)
     
     SetNuiFocus(true, true)
-    -- SetNuiFocusKeepInput(true)
+    SetNuiFocusKeepInput(true)
 
     if fn then
         fn()
@@ -14,9 +16,10 @@ end
 
 UiApp.Close = function(fn)
     UiApp.SetRoute("/")
+    UiApp.Emit('SetInterfaceDisplay', false)
 
     SetNuiFocus(false, false)
-    -- SetNuiFocusKeepInput(false)
+    SetNuiFocusKeepInput(false)
 
     if fn then
         fn()

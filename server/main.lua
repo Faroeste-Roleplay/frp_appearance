@@ -11,9 +11,9 @@ Tunnel.bindInterface("frp_appearance", AppearanceServer)
 Proxy.addInterface("frp_appearance", AppearanceServer)
 
 function AppearanceServer.CanSaveModifications( )
-    -- local playerId = source
-    -- local hasMoney = Inventory.GetItem(playerId, "money", nil, true) >= PriceDefaultToPay
-    return true
+    local playerId = source
+    local hasMoney = Inventory.GetItem(playerId, "money", nil, true) >= PriceDefaultToPay
+    return hasMoney
 end
 
 local function RemoveMoneyToSave(source)
@@ -42,6 +42,7 @@ function AppearanceServer.updateAppearancePerformMerge( equippedApparelsByType, 
     local newOutfitId = Character:CreateCharacterOutfit( equippedApparelsByType, outfitName )
     if newOutfitId then
         Character:SetCurrentOutfit( newOutfitId )
+        Character:SetGameAppearance()
         return true
     end
 
@@ -49,22 +50,39 @@ function AppearanceServer.updateAppearancePerformMerge( equippedApparelsByType, 
 end
 
 function AppearanceServer.updateAppearanceBarberShop( equippedApparelsByType, overlayData )
-    print("updateAppearanceBarberShop :: ",equippedApparelsByType, overlayData)
     local playerId = source
     local User = API.GetUserFromSource(playerId)
     local Character = User:GetCharacter()
 
-    -- local paid = RemoveMoneyToSave(playerId)
+    local paid = RemoveMoneyToSave(playerId)
 
-    -- if not paid then
-    --     return cAPI.Notify(playerId, "error", string.format(i18n.translate("error.does_not_have_money", PriceDefaultToPay)))
-    -- end
+    if not paid then
+        return cAPI.Notify(playerId, "error", string.format(i18n.translate("error.does_not_have_money", PriceDefaultToPay)))
+    end
 
-    print(" overlayData :: ", json.encode(overlayData, {indent=true}))
-    print(" equippedApparelsByType :: ", json.encode(equippedApparelsByType, {indent=true}))
+    local hairApparatusId, hairApparatusStyleId = equippedApparelsByType[eMetapedBodyApparatusType.Hair]?.id, equippedApparelsByType[eMetapedBodyApparatusType.Hair]?.styleId
+    local mustacheApparatusId, mustacheApparatusStyleId = equippedApparelsByType[eMetapedBodyApparatusType.BeardsComplete]?.id, equippedApparelsByType[eMetapedBodyApparatusType.BeardsComplete]?.styleId
 
-    --- por para salvar
+    local appearanceCustomizable =
+    {
+        hairApparatusId = hairApparatusId,
+        hairApparatusStyleId = hairApparatusStyleId,
 
+        mustacheApparatusId = mustacheApparatusId,
+        mustacheApparatusStyleId = mustacheApparatusStyleId,
+    }
+
+    local appearanceOverlays = exports.frp_creator:formatOverlaysToSave( overlayData )
+
+    -- local characterNode = {
+    --     componentsCustomizable = appearanceCustomizable,
+    --     overlaysCustomizable = appearanceOverlays.appearanceOverlaysCustomizable
+    -- }
+
+    Character:SetCharacterFaceHairAppearanceCustomizable( appearanceCustomizable )
+    Character:SetCharacterAppearanceOverlaysCustomizable( appearanceOverlays.appearanceOverlaysCustomizable )
+    
+    -- Character:SetGameAppearance()
     return true
 end
 

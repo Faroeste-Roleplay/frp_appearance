@@ -136,27 +136,27 @@ Game.LoadDefaultAppConfiguration = function()
 end
 
 Game.UseEditorKindClothingstore = function()
-    local ped = Game.ped 
+    -- local ped = Game.ped 
 
-    local camCoords =  GetOffsetFromEntityInWorldCoords(ped, 0.2, 2.2, 0.2)
-    local camPoint = GetOffsetFromEntityInWorldCoords(ped, 0.3, 0.0, -0.05)
+    -- local camCoords =  GetOffsetFromEntityInWorldCoords(ped, 0.2, 2.2, 0.2)
+    -- local camPoint = GetOffsetFromEntityInWorldCoords(ped, 0.3, 0.0, -0.05)
 
-    local cam = CreateCameraWithParams(
-        'DEFAULT_SCRIPTED_CAMERA',
-        camCoords.x,
-        camCoords.y,
-        camCoords.z,
-        0.0,
-        0.0,
-        0.0,
-        50.0,
-        false,
-        0
-    );
+    -- local cam = CreateCameraWithParams(
+    --     'DEFAULT_SCRIPTED_CAMERA',
+    --     camCoords.x,
+    --     camCoords.y,
+    --     camCoords.z,
+    --     0.0,
+    --     0.0,
+    --     0.0,
+    --     50.0,
+    --     false,
+    --     0
+    -- );
 
-    PointCamAtCoord(cam, camPoint.x, camPoint.y, camPoint.z);
-    SetCamActiveWithInterp(cam, -1, 1200, 1, 1);
-    RenderScriptCams(true, false, 3000, true, false, 0);
+    -- PointCamAtCoord(cam, camPoint.x, camPoint.y, camPoint.z);
+    -- SetCamActiveWithInterp(cam, -1, 1200, 1, 1);
+    -- RenderScriptCams(true, false, 3000, true, false, 0);
 end
 
 Game.UseEditorKindBarbershop = function()

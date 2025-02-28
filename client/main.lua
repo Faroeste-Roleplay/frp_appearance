@@ -2,6 +2,12 @@ Game = {}
 
 Game.ped = nil
 
+
+usePedCam()
+useControllablePedCam()
+
+
+
 ePersonaEditorKind =
 {
     PEK_Default = 0,
@@ -30,7 +36,9 @@ Game.Start = function(ped, kind, onConfirm, onBeforeUndo, onUndo)
     Game.InitEquippedMetapedClothing()
 
     Game.PersonaEditorAppearance.Start()
-    Game.PersonaEditorCameraManager.Start()
+    -- Game.PersonaEditorCameraManager.Start()
+
+    Game.StartPedCam( ped )
 
     Game.clonePedId = ClonePed(Game.ped, true, true, false)
     SetEntityVisible(Game.clonePedId, false);
@@ -77,8 +85,8 @@ Game.Start = function(ped, kind, onConfirm, onBeforeUndo, onUndo)
 
     -- print(" INICIOU UMA VEZ ::::::::::::::::::")
 
-    -- if kind ==  ePersonaEditorKind.PEK_Barbershop then
-    --     Game.clothingSystemPushRequest(Game.ped, 'CreateHeadOverlay', { });
+    -- if kind == ePersonaEditorKind.PEK_Barbershop or kind == ePersonaEditorKind.PEK_Clothingstore then
+        Game.ThreadToBlockControls();
     -- end
 
     UiApp.Launch(function()
@@ -95,6 +103,11 @@ Game.Start = function(ped, kind, onConfirm, onBeforeUndo, onUndo)
         if kind ~= nil then
             Game.UseEditorKind(kind)
         end
+
+        UiApp.On("SET_FOCUS_UI_STATE", function(data, cb)
+            SetNuiFocusKeepInput(data.body)
+            cb({ ok = true });
+        end)
 
         UiApp.On("REQUEST_CLOSE", function(data, cb)
             if Game.onBeforeUndoCb and Game.onBeforeUndoCb() then
@@ -130,7 +143,7 @@ Game.Start = function(ped, kind, onConfirm, onBeforeUndo, onUndo)
         end)
 
         UiApp.On("button_action", function(data, cb)
-            Game.PersonaEditorCameraManager.HandleRequest(data.body);
+            -- Game.PersonaEditorCameraManager.HandleRequest(data.body);
             cb({ ok = true });
         end)
     end)
@@ -143,6 +156,8 @@ Game.Stop = function()
     UiApp.Close()
 
     UiApp.UnregisterAllMethods()
+
+    Game.StopPedCam()
 
     RenderScriptCams(false, true, 500, true, true, 0);
 
@@ -331,6 +346,45 @@ end)
 
 --     local equippedMetapedClothing = Game.Start(ped, ePersonaEditorKind.PEK_Clothingstore, onConfirm, onBeforeUndo, onUndo)
 -- end)
+
+function Game.ThreadToBlockControls()
+    CreateThread(function()
+        while Game.Enabled do 
+            DisableAllControlActions(0)
+            Wait(0)
+        end
+    end)
+end
+
+function Game.StartPedCam(entityId)
+    if entityId then
+        local cameraPosition = GetOffsetFromEntityInWorldCoords( entityId, 0.13, 0.0, 0.05 )
+
+        SetPedCamLookAtPosition(cameraPosition)
+    
+        SetPedCamDistanceToLookAtPos(3.0)
+        SetPedCamMinDistanceToLookAtPos(0.4)
+        SetPedCamMaxDistanceToLookAtPos(3.0)
+
+        SetPedCamAngleY(0)
+    
+        EnableControllablePedCam()
+        
+        gPedCamPreviewIsEnabled = true
+    end
+end
+
+function Game.StopPedCam()
+    DisableControllablePedCam(true)
+    ClearFocus()
+    gPedCamPreviewIsEnabled = false
+end
+
+AddEventHandler("onResourceStop", function(resName)
+    if resName == GetCurrentResourceName() then
+        Game.Stop()
+    end
+end)
 
 RegisterNetEvent("stopscript.scrPersonaEditor", function()
     if Game.Enabled then
